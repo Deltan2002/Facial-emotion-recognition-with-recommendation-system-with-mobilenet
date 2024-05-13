@@ -3,3 +3,4 @@ kaggle.json
 /face-expression-recognition-dataset.zip
 emoflix/
 node_modules
+/env

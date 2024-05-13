@@ -25,57 +25,55 @@ def camera():
     
     detector = FER(mtcnn=True)
     
-    cap = cv2.VideoCapture(0)
-
-    if not cap.isOpened():
-        print("Error: Failed to open camera.")
-        return render_template("error.html")
-
-    output = []  # Initialize the output list
-    start_time = time.time()  # Start time
-
-    while time.time() - start_time <= 15:  # Run for 10 seconds
-        ret, img = cap.read()
-        if not ret:
-            print("Error: Failed to capture image from camera")
-            break
-
-        # Use FER for face detection and emotion recognition
-        result = detector.detect_emotions(img)
+    try:
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        print(cap.isOpened())
+        # if not cap.isOpened():
+        #     raise Exception("Failed to open camera.")
         
-        for face in result:
-            # Extract face region
-            x, y, w, h = face["box"]
-            face_img = img[y:y+h, x:x+w]
-            resized = cv2.resize(face_img, (48, 48))
+        output = []  # Initialize the output list
+        start_time = time.time()  # Start time
+
+        while time.time() - start_time <= 10:  # Run for 20 seconds
+            ret, img = cap.read()
+            if not ret:
+                print("Error: Failed to capture image from camera")
+                break
+
+            # Use FER for face detection and emotion recognition
+            result = detector.detect_emotions(img)
             
-            # Perform emotion prediction
-            predictions = detector.top_emotion(resized)
-            predicted_emotion = predictions[0]
-            output.append(predicted_emotion)
+            for face in result:
+                # Extract face region
+                x, y, w, h = face["box"]
+                face_img = img[y:y+h, x:x+w]
+                resized = cv2.resize(face_img, (48, 48))
+                
+                # Perform emotion prediction
+                predictions = detector.top_emotion(resized)
+                predicted_emotion = predictions[0]
+                output.append(predicted_emotion)
 
-            # Draw bounding box and emotion label
-            cv2.rectangle(img, (x, y), (x+w, y+h), GR_dict[1], 2)
-            cv2.putText(img, predicted_emotion, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+                # Draw bounding box and emotion label
+                cv2.rectangle(img, (x, y), (x+w, y+h), GR_dict[1], 2)
+                cv2.putText(img, predicted_emotion, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
 
-        cv2.imshow('LIVE', img)
-        key = cv2.waitKey(1)
-        if key == 27:
-            break
+            cv2.imshow('LIVE', img)
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
 
-    cap.release()
-    cv2.destroyAllWindows()
-    
-    if output:
+        cap.release()
+        cv2.destroyAllWindows()
+        
+        if output:
+            final_output = st.mode(output)
+            return render_template("buttons.html", final_output=final_output)
+        else:
+            return render_template("error.html")
 
-        final_output = st.mode(output)
-        # # emotions = ["sad", "happy", "angry", "neutral", "surprise"]
-        # if final_output in emotions:
-        #     # Render the template with the detected emotion
-        return render_template("buttons.html", final_output=final_output)
-        # else:
-        #     return render_template("error.html")
-    else:
+    except Exception as e:
+        print("Error:", e)
         return render_template("error.html")
 
 @app.route('/get_emotion/<emotion>')
