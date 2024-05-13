@@ -1,0 +1,14 @@
+pandas
+keras
+tensorflow-cpu
+matplotlib
+numpy
+jupyter
+notebook
+tqdm
+kaggle
+flask
+opencv-python
+scipy
+mtcnn
+fer
