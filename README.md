@@ -16,15 +16,8 @@ This project aims to develop a Facial Emotion Recognition system that identifies
 - [Demo](#demo)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Model Training](#model-training)
-- [Recommendation System](#recommendation-system)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
 
-## Demo
 
-A live demo of the project can be accessed [here](#). (Provide a link to your live demo or a video demonstration)
 
 ## Installation
 
@@ -39,8 +32,8 @@ A live demo of the project can be accessed [here](#). (Provide a link to your li
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/your-username/facial-emotion-recognition.git
-    cd facial-emotion-recognition
+    git clone https://github.com/Deltan2002/Facial-emotion-recognition-with-recommendation-system-with-mobilenet.git
+    cd Facial-emotion-recognition-with-recommendation-system-with-mobilenet
     ```
 
 2. Create a virtual environment and activate it:
@@ -56,46 +49,23 @@ A live demo of the project can be accessed [here](#). (Provide a link to your li
     pip install -r requirements.txt
     ```
 
-### Frontend Setup
-
-1. Navigate to the `frontend` directory:
-
-    ```sh
-    cd frontend
-    ```
-
-2. Install the required npm packages:
-
-    ```sh
-    npm install
-    ```
-
 ## Usage
 
 ### Starting the Backend Server
 
 1. Navigate to the root directory of the project.
-2. Start the backend server:
+2. Start the backend flask server:
 
     ```sh
     python app.py
     ```
 
-### Starting the Frontend Server
-
-1. Navigate to the `frontend` directory.
-2. Start the frontend server:
+3. Alternatively you can use nodemon to start the application:
 
     ```sh
-    npm start
+    nodemon --exec python3 app.py
     ```
 
-3. Open your browser and navigate to `http://localhost:3000`.
+4. Open your browser and navigate to `http://localhost:5000`.
 
-## Model Training
-
-To train the emotion recognition model, you can use a dataset like [FER-2013](https://www.kaggle.com/datasets/deadskull7/fer2013). Place the dataset in the `data` directory and run the training script:
-
-```sh
-python train_model.py
 
